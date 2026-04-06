@@ -1,0 +1,109 @@
+[System Description]
+
+Consider a smart manufacturing system where a fleet of U homogeneous UAVs
+is dispatched from a central depot equipped with terrestrial mobile edge
+computing (MEC) servers (referred to as the cloud). The UAVs are tasked
+with collecting finished products from M geographically distributed
+manufacturing stations, while simultaneously providing MEC services to
+industrial sensor devices (ISDs) at those stations. The system follows
+a depot-based mission mode (depot → manufacturing stations → depot),
+operating over a discretized finite time horizon T with slot duration Δ.
+
+Each ISD stochastically generates computational tasks, which may be
+executed locally on the ISD, offloaded to a serving UAV (aerial MEC
+layer), or forwarded via the UAV to the cloud (three-layer cloud-edge-
+device architecture). Each task is executed by exactly one processor.
+UAV routing decisions jointly determine product collection performance
+and MEC service availability, since UAV-assisted computing and
+communication are feasible only when a UAV is present and within
+communication range of the station.
+
+Each UAV is constrained by payload capacity, maximum travel distance,
+mission time horizon, and a total energy budget covering flight energy,
+hovering energy, onboard computing energy, and communication energy
+(uplink and backhaul). The mission requires each station to be visited
+by at most one UAV, and all UAVs must depart from and return to the depot
+within the mission time limit.
+
+---
+
+[Required Mathematical Formulation]
+
+Please provide a complete and rigorous optimization problem formulation
+that jointly optimizes UAV routing, product collection assignment, task
+execution mode selection (local / UAV / cloud), and computing and
+communication resource allocation. The formulation should cover:
+
+1. All decision variables and parameters (including binary routing
+   variables, timing variables, task execution mode indicators, resource
+   allocation variables, and energy-related variables).
+
+2. An objective function that maximizes total product collection value
+   and the number of tasks completed before their deadlines, while
+   penalizing deadline violations, task flow time (completion delay),
+   and overall computing and communication resource occupation.
+
+3. All constraints from UAV routing, organized as:
+   (a) Collection assignment and route consistency constraints
+       (station assignment, flow conservation, depot departure/return).
+   (b) Payload capacity and travel distance budget constraints.
+   (c) Mission timing feasibility constraints, including UAV depot
+       departure time, return time within mission horizon, travel time
+       consistency between consecutive nodes (depot-to-station,
+       station-to-station, station-to-depot), and minimum required
+       service duration at each assigned station.
+
+4. All constraints from task offloading, including:
+   (a) Execution mode selection (exactly one mode per task).
+   (b) Completion time encoding via slot-selection binary variables,
+       and deadline satisfaction indicators.
+   (c) Per-slot computing capacity limits (local ISD, UAV onboard, cloud)
+       and communication capacity limits (uplink and backhaul).
+   (d) Mode consistency constraints (resource allocation forced to zero
+       unless the corresponding mode is selected).
+   (e) Multi-slot cumulative service sufficiency constraints for both
+       computing workload and communication data volume.
+   (f) Service-window indicator constraints (UAV serves at most one
+       station per slot, only at assigned stations, only within
+       arrival-to-departure interval).
+   (g) Service-window feasibility constraints (UAV communication and
+       computing allocations are zero unless the UAV is actively serving
+       the corresponding station in that slot).
+   (h) Deadline satisfaction constraint (task marked on-time only if
+       completion time is within deadline).
+   (i) UAV energy budget constraint, decomposed into flight/hovering
+       energy, onboard computing energy, and uplink/backhaul
+       communication energy.
+
+---
+
+[Chain-of-Thought Planning]
+
+Please follow the steps below to produce the formulation:
+
+Step 1 — Objective Function:
+   Formulate the multi-objective cost function in standard maximization
+   form, clearly identifying each weighted term: collection value reward,
+   on-time task completion return, deadline violation penalty, flow-time
+   penalty, and resource occupation cost.
+
+Step 2 — Constraints:
+   Formulate all constraints as specified in items (3) of the [Required Mathematical 
+   Formulation] block above, covering UAV routing constraints (3a–3c). For this 
+   constraint group, provide the mathematical expression followed by a one-sentence 
+   plain-language explanation of its role in the optimization model.
+
+Step 3 — Constraints:
+   Formulate all constraints as specified in items (4) of the [Required Mathematical 
+   Formulation] block above, covering task offloading constraints (4a–4i). For each 
+   constraint group, provide the mathematical expression followed by a one-sentence 
+   plain-language explanation of its role in the optimization model.
+
+Step 4 — Notation Summary:
+   After presenting the objective function and all constraints, compile
+   a unified notation table in point form that lists and explains every
+   mathematical symbol used, organized into:
+   (a) Decision variables (binary and continuous).
+   (b) System parameters.
+   (c) Superscripts and index conventions.
+   (d) Auxiliary sets and derived quantities.
